@@ -84,10 +84,10 @@ int main(int argc, char **argv)
     int status;
 
 
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s <prog> <arg1> ... <argN>\n", argv[0]);
-        return 1;
-    }
+//    if (argc < 2) {
+//        fprintf(stderr, "Usage: %s <prog> <arg1> ... <argN>\n", argv[0]);
+//        return 1;
+//    }
 
 //    if ((pid = fork()) == 0) {
 //        ptrace(PTRACE_TRACEME, 0, 0, 0);
