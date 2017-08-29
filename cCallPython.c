@@ -1,7 +1,8 @@
 #include <sys/ptrace.h>  
 #include <sys/types.h>  
 #include <sys/wait.h>  
-#include <unistd.h>  
+#include <unistd.h>
+#include <errno.h>
 //#include <linux/user.h>
 #include <sys/syscall.h>
 #include <sys/user.h>
@@ -10,6 +11,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <sys/reg.h>
+#include <asm-generic/errno.h>
 
 static void process_signals(pid_t child);
 static int wait_for_open(pid_t child);
@@ -26,7 +28,6 @@ register void* edx __asm__("edx");
 
 #define PATH_MAX 100
 struct user_regs_struct regs;
-int errno;
 
 /* Function prototypes with attributes */
 void main_constructor(void)
@@ -105,7 +106,10 @@ int main(int argc, char **argv)
 //        process_signals(pid);
 //        return 0;
 //    }
-    ptrace(PTRACE_TRACEME, getpid(), 0, 0);
+
+    if (ptrace(PTRACE_TRACEME, getpid(), 0, 0) != 0) {
+        printf("Failed ---> %s\n", strerror(errno));
+    }
     char* a = malloc(6* sizeof(char));
 //    //a = "fffff";
     f1(a);
